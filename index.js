@@ -22,7 +22,7 @@ FeatureToggle.prototype.toggleFeature = function(flag) {
     this.isEnabled = flag
 }
 
-let toggle = new FeatureToggle("Notification", true, ["betaTesters", "admins"]);
+
 
 let roles = ["guests", "betaTesters", "admins", "user"];
 roles.forEach(role => {
@@ -39,10 +39,11 @@ roles.forEach(role => {
         }
     }
 })
+let toggle = new FeatureToggle("Notification", true, ["betaTesters", "admins"]);
 
-FeatureToggle("Notifications", true, ["betaTesters", "admin", "product manager", "user", "guests"])
 
-
+console.log(toggle.toggleFeature())
+console.log(toggle.canAccess())
 
 
 
@@ -79,11 +80,46 @@ function Order(customer, items, status){
     this.items = items
     this.status = status
 }
-Order.prototype.totalCost
+
+Order.prototype.totalCost = function(){
+    let cost = this.items.reduce((accum,item) => accum + item.quantity * item.unitPrice,0);
+    return cost
+}
+
+Order.prototype.updateStatus = function(){
+    if(this.status == "isPaid"){
+        return "paid"
+    }else{
+        return "Payment not made"
+    }
+}
+
+Order.prototype.cartegorization = function() {
+    switch(this.status){
+        case "Payment not made":
+            console.log("Low Urgency");
+            break;
+        case "paid":
+            console.log("High Urgency");
+            break;
+        default:
+            console.log("Urgency not known");
+        
+    }
+}
+
+let neworder =  new Order ( {name:"Judy", email:"judygikuni@gmail.com"} [{productName: "Bread", quantity: 2, unitPrice:50}] [{productName: "sugar", quantity:2, unitPrice:90}], "payment not made");
+
+console.log(neworder.totalCost())
+console.log(neworder.updateStatus())
+console.log(neworder.cartegorization())
+
 
 // In a startup’s employee review tool, design an Employee class with properties: id (number), name (string), 
 // performanceMetrics (object with keys like communication, efficiency, and reliability), and feedback (array of strings), 
 // then use prototypes to calculate an average score, classify performance level using control flow, and add new feedback based on conditions.
+
+
 
 
 // Build a simple e-learning system where a Course class has properties: 
