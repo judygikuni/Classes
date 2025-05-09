@@ -59,9 +59,14 @@ function TimeLog(freelancerName, projectDetails,logs){
     this.logs = logs
 }
 
-TimeLog.prototype.totalEarning
+TimeLog.prototype.totalEarning = function(){
+    let total = this.logs.reduce((accum,log) => accum + log.hoursWorked * this.projectDetails.hourlyRate,0);
+    return total
+}
 
-
+TimeLog.prototype.logsByDate = function(){
+    let 
+}
 
 
 // You are developing a startup’s order management system where an Order constructor 
@@ -69,6 +74,12 @@ TimeLog.prototype.totalEarning
 // quantity, and unitPrice), and status (string), then implement prototype methods to compute total cost, 
 // update order status based on payment, and categorize order urgency using switch and conditional statements.
 
+function Order(customer, items, status){
+    this.customer = customer
+    this.items = items
+    this.status = status
+}
+Order.prototype.totalCost
 
 // In a startup’s employee review tool, design an Employee class with properties: id (number), name (string), 
 // performanceMetrics (object with keys like communication, efficiency, and reliability), and feedback (array of strings), 
