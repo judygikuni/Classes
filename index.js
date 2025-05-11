@@ -13,20 +13,21 @@ function FeatureToggle(featureName, isEnabled, userGroupAccess){
 }
 
 FeatureToggle.prototype.canAccess = function(userRole){
-    if (this.userGroupAccess.includes(userRole)){
-        return this.isEnabled
+    let toggle = this.userGroupAccess.includes(userRole) && this.isEnabled;
+    return toggle;
+        
     }
-}
+
 
 FeatureToggle.prototype.toggleFeature = function(flag) {
     this.isEnabled = flag
 }
 
+let toggle = new FeatureToggle("Notification", true, ["betaTesters", "admins"]);
 
-
-let roles = ["guests", "betaTesters", "admins", "user"];
-roles.forEach(role => {
-    if (toggle.canAccess(role)){
+let userRoles = ["guests", "betaTesters", "admins", "user"];
+userRoles.forEach(role => {
+    if(toggle.canAccess(role)){
         console.log(`${role} can access ${toggle.featureName}`);
     } else{
         switch (role){
@@ -39,7 +40,6 @@ roles.forEach(role => {
         }
     }
 })
-let toggle = new FeatureToggle("Notification", true, ["betaTesters", "admins"]);
 
 
 console.log(toggle.toggleFeature())
@@ -63,11 +63,28 @@ function TimeLog(freelancerName, projectDetails,logs){
 TimeLog.prototype.totalEarning = function(){
     let total = this.logs.reduce((accum,log) => accum + log.hoursWorked * this.projectDetails.hourlyRate,0);
     return total
-}
+};
 
-TimeLog.prototype.logsByDate = function(){
-    let 
-}
+TimeLog.prototype.logsByDate = function(startDate, endDate){
+    let dates = this.logs.filter(log => log.date >= startDate && log.date <= endDate);
+    return dates
+};
+
+TimeLog.prototype.exceedsHours = function(){
+    let totalHours = this.logs.reduce((accum,log) => accum +log.hoursWorked, 0);
+    if (totalHours > 40){
+        return "overtime";
+    }else {
+        return "Within hours"
+    }
+};
+
+ let timelog = new TimeLog("Judy", {name: "Product management", hourlyRate: 50}, [{date: "2025-05-01", hoursWorked:5}, {date:"2025-06-02", hoursWorked:10}]);
+
+
+ console.log(timelog.exceedsHours());
+ console.log(timelog.logsByDate());
+ console.log(timelog.totalEarning());
 
 
 // You are developing a startup’s order management system where an Order constructor 
@@ -119,12 +136,16 @@ console.log(neworder.cartegorization())
 // performanceMetrics (object with keys like communication, efficiency, and reliability), and feedback (array of strings), 
 // then use prototypes to calculate an average score, classify performance level using control flow, and add new feedback based on conditions.
 
+class Employee{
+    constructor (id, name, performanceMetrics, feedback) {
+        this.id = id;
+        this.name = name;
+        this.performanceMetrics = performanceMetrics;
+        this.feedback =feedback;
+    }
+}
 
 
 
-// Build a simple e-learning system where a Course class has properties: 
-// title (string), instructor (object with name and expertise), and students (array of objects 
-// with name and completionStatus), then add prototype methods to return names of students who 
-// completed the course, count enrolled students by expertise area, and use control flow to 
-// output different messages for instructors with more or less than 5 students.
+
 
